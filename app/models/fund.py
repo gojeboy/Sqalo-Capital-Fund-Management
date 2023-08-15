@@ -13,10 +13,10 @@ class Fund(db.Model):
     sharesIssued = db.Column(db.Float, nullable=False)
     price = db.Column(db.Float, nullable=False)
 
-    investment_company_id = db.Column(db.Integer, db.ForeignKey('managing_companies.id'))
+    asset_manager_id = db.Column(db.Integer, db.ForeignKey('assetManager.id'))
 
     # Many-to-one relationship with ManagingCompany
-    managing_company = relationship("ManagingCompany", back_populates="funds")
+    assetManager = relationship("AssetManager", back_populates="funds")
 
     # One-to-many relationship with Investor
     investors = relationship("Investor", back_populates="fund")
@@ -24,14 +24,14 @@ class Fund(db.Model):
     # One-to-many relationship with DailyPerformanceStats
     daily_performance_stats = relationship("DailyPerformanceStats", back_populates="fund")
 
-    def __init__(self, fundname, currency, equity, cashBalance, sharesIssued, price, investment_company_id):
+    def __init__(self, fundname, currency, equity, cashBalance, sharesIssued, price, asset_manager_id):
         self.fundname = fundname
         self.currency = currency
         self.equity = equity
         self.cashBalance = cashBalance
         self.sharesIssued = sharesIssued
         self.price = price
-        self.investment_company_id = investment_company_id
+        self.asset_manager_id = asset_manager_id
 
     def save(self):
         db.session.add(self)
@@ -51,10 +51,15 @@ class Fund(db.Model):
             'cashBalance': self.cashBalance,
             'sharesIssued': self.sharesIssued,
             'price': self.price,
-            'investors':investors
+            'investors':investors,
+            'asset_manager_id': self.asset_manager_id
         }
 
     @staticmethod
     def get_fund_by_id(fundID):
         return db.session.query(Fund).filter_by(id=fundID).first()
+
+    @staticmethod
+    def get_funds_by_managerID(asset_manager_id):
+        return db.session.query(Fund).filter_by(asset_manager_id=asset_manager_id)
 

@@ -16,7 +16,7 @@ class ManagingCompany(db.Model):
     # login_details = relationship("LoginDetails", back_populates="managing_company", uselist=False)
 
     # One-to- many relationship with Fund
-    funds = relationship("Fund", back_populates="managing_company")
+    # funds = relationship("Fund", back_populates="managing_company")
 
     def __init__(self, companyName, companyRegistrationNo, email, managerFirstname, managerLastname, loginDetailsID):
         self.companyName = companyName
