@@ -1,0 +1,1 @@
+transactionFeePercentage = 1 / 100

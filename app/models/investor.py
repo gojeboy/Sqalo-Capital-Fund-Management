@@ -7,11 +7,12 @@ class Investor(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     firstname = db.Column(db.String, nullable=False)
-    lastname = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False, unique=True)
+    lastname = db.Column(db.String, nullable=False)
+    type = db.Column(db.String, nullable=False)
     idNumber = db.Column(db.String, nullable=False, unique=True)
-    totalShares = db.Column(db.Float, nullable=False)
-    totalCost = db.Column(db.Float, nullable=False)
+    totalShares = db.Column(db.Float, nullable=True)
+    totalCost = db.Column(db.Float, nullable=True)
 
     fund_id = db.Column(db.Integer, db.ForeignKey('funds.id'))
 
@@ -42,3 +43,11 @@ class Investor(db.Model):
             'totalCost': self.totalCost,
             'fund_id': self.fund_id
         }
+
+    @staticmethod
+    def get_investor_by_id(investorID):
+        return db.session.query(Investor).filter_by(id=investorID).first()
+
+    @staticmethod
+    def get_investor_by_id_number(idNumber):
+        return db.session.query(Investor).filter_by(idNumber=idNumber).first()
