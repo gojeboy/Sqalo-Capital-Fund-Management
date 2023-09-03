@@ -114,6 +114,11 @@ def fetch_investors():
 
     return jsonify(fund.serialize())
 
+
+@app.route('/test', methods=["GET"])
+def testAPI():
+    return "Deploy working fine"
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()  # Create the database tables
